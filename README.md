@@ -1,2 +1,3 @@
 # todo-list
-ToDo List
+Todo List
+this project has been created for learning react ecosystem
