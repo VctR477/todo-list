@@ -2,13 +2,10 @@ import React from 'react';
 import TodoListItem from './todo-list-item';
 
 const TodoList = ({ todos }) => {
-	const elements = todos.map(({ label, important = false}) => {
+	const elements = todos.map((item) => {
 		return (
 			<li>
-				<TodoListItem
-					label={label}
-					important={important}
-				/>
+				<TodoListItem { ...item }/>
 			</li>
 		);
 	});
