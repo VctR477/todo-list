@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import './app-header.css';
 
-export default class AppHeader {
+export default class AppHeader extends Component {
 	
 	render() {
 		const { toDo, done } = this.props;
