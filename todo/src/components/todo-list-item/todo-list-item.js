@@ -3,23 +3,24 @@ import './todo-list-item.css';
 
 export default class TodoListItem extends Component {
 
-	constructor() {
-		super();
-		this.state = {
-			done: false,
-			important: false,
-		};
-		this.onLabelClick = () => {
-			this.setState({
-				done: !this.state.done
-			})
-		}
-		this.onMarkImportant = () => {
-			this.setState({
-				important: !this.state.important
-			})
-		}
-	}
+	state = {
+		done: false,
+		important: false,
+	};
+	onLabelClick = () => {
+		this.setState(({ done }) => {
+			return {
+				done: !done
+			}
+		});
+	};
+	onMarkImportant = () => {
+		this.setState(({ important }) => {
+			return {
+				important: !important
+			};
+		});
+	};
 
 	render() {
 		const { label } = this.props;
