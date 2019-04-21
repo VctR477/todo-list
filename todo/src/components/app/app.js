@@ -9,12 +9,23 @@ import './app.css';
 
 export default class App extends Component {
 
+	maxId = 0;
+
 	state = {
 		todoDate: [
-			{ label: 'Drink coffee', important: false, id: 2343, done: false, },
-			{ label: 'Make awesome app', important: true, id: 24352, done: false, },
-			{ label: 'Have a lunch', important: false, id: 908342, done: false, },
+			this.createTodoItem('Drink coffee'),
+			this.createTodoItem('Make awesome app'),
+			this.createTodoItem('Have a lunch'),
 		] 
+	}
+
+	createTodoItem(label) {
+		return {
+			label,
+			important: false,
+			done: false,
+			id: this.maxId++,
+		};
 	}
 
 	delTodoItem = (id) => {
@@ -30,12 +41,7 @@ export default class App extends Component {
 	}
 
 	addItem = () => {
-		const newTodoItem = {
-			label: this.getTextTodo(),
-			important: false,
-			done: false,
-			id: Math.floor(Math.random()*9999),
-		};
+		const newTodoItem = this.createTodoItem(this.getTextTodo());
 		this.setState(({ todoDate }) => {
 			return {
 				todoDate: [...todoDate, newTodoItem]
@@ -69,31 +75,36 @@ export default class App extends Component {
 		});
 	}
 
-	getDoneTodos = () => {
-		return this.state.todoDate.filter(item => item.done).length;
-	}
-
-	getTodoCount = () => {
-		return this.state.todoDate.length - this.getDoneTodos();
-	}
-
 	render() {
+		const {
+			state: {
+				todoDate
+			},
+			delTodoItem,
+			onToggleImportant,
+			onToggleDone,
+			addItem,
+			getTextTodo,
+		} = this;
+		const todoCount = todoDate.filter(item => item.done).length;
+		const todoDoneCount = todoDate.length - todoCount;
+
 		return (
 			<div className="todo-app">
-				<AppHeader toDo={this.getTodoCount()} done={this.getDoneTodos()} />
+				<AppHeader toDo={todoCount} done={todoDoneCount} />
 				<div className="top-panel d-flex">
 					<SearchPanel
-						getTextTodo={this.getTextTodo}/>
+						getTextTodo={getTextTodo}/>
 					<ItemStatusFilter />
 				</div>
 
 				<TodoList
-					todos={this.state.todoDate}
-					onDeleted={this.delTodoItem}
-					onToggleImportant={this.onToggleImportant}
-					onToggleDone={this.onToggleDone}/>
+					todos={todoDate}
+					onDeleted={delTodoItem}
+					onToggleImportant={onToggleImportant}
+					onToggleDone={onToggleDone}/>
 				<ItemAddForm
-					onItemAdded={this.addItem}/>
+					onItemAdded={addItem}/>
 			</div>
 		);
 	}
