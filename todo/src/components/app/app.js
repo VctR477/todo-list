@@ -4,6 +4,7 @@ import AppHeader from '../app-header';
 import SearchPanel from '../search-panel';
 import TodoList from '../todo-list';
 import ItemStatusFilter from '../item-status-filter';
+import ItemAddForm from '../item-add-form';
 import './app.css';
 
 export default class App extends Component {
@@ -24,18 +25,38 @@ export default class App extends Component {
 		});
 	}
 
+	getTextTodo = () => {
+		return 'new Todo';
+	}
+
+	addItem = () => {
+		const newTodoItem = {
+			label: this.getTextTodo(),
+			important: false,
+			id: Math.floor(Math.random()*9999),
+		};
+		this.setState(({ todoDate }) => {
+			return {
+				todoDate: [...todoDate, newTodoItem]
+			}
+		});
+	}
+
 	render() {
 		return (
 			<div className="todo-app">
 				<AppHeader toDo={1} done={3} />
 				<div className="top-panel d-flex">
-					<SearchPanel />
+					<SearchPanel
+						getTextTodo={this.getTextTodo}/>
 					<ItemStatusFilter />
 				</div>
 
 				<TodoList
 					todos={this.state.todoDate}
-					onDeleted={this.delTodoItem}/>
+					onDeleted={this.delTodoItem} />
+				<ItemAddForm
+					onItemAdded={this.addItem}/>
 			</div>
 		);
 	}
