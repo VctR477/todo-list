@@ -36,12 +36,8 @@ export default class App extends Component {
 		});
 	}
 
-	getTextTodo = () => {
-		return 'new Todo';
-	}
-
-	addItem = () => {
-		const newTodoItem = this.createTodoItem(this.getTextTodo());
+	onItemAdded = (text) => {
+		const newTodoItem = this.createTodoItem(text);
 		this.setState(({ todoDate }) => {
 			return {
 				todoDate: [...todoDate, newTodoItem]
@@ -83,8 +79,7 @@ export default class App extends Component {
 			delTodoItem,
 			onToggleImportant,
 			onToggleDone,
-			addItem,
-			getTextTodo,
+			onItemAdded,
 		} = this;
 		const todoCount = todoDate.filter(item => item.done).length;
 		const todoDoneCount = todoDate.length - todoCount;
@@ -93,8 +88,7 @@ export default class App extends Component {
 			<div className="todo-app">
 				<AppHeader toDo={todoCount} done={todoDoneCount} />
 				<div className="top-panel d-flex">
-					<SearchPanel
-						getTextTodo={getTextTodo}/>
+					<SearchPanel/>
 					<ItemStatusFilter />
 				</div>
 
@@ -104,7 +98,7 @@ export default class App extends Component {
 					onToggleImportant={onToggleImportant}
 					onToggleDone={onToggleDone}/>
 				<ItemAddForm
-					onItemAdded={addItem}/>
+					onItemAdded={onItemAdded}/>
 			</div>
 		);
 	}
