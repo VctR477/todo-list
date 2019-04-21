@@ -4,6 +4,10 @@ import './todo-list.css';
 
 export default class TodoList extends Component {
 	render() {
+		const {
+			onToggleDone,
+			onToggleImportant,
+		} = this.props;
 		const elements = this.props.todos.map((item) => {
 			const { id, ...props } = item;
 			return (
@@ -11,6 +15,8 @@ export default class TodoList extends Component {
 					<TodoListItem
 						{...props}
 						onDeleted={() => this.props.onDeleted(id)}
+						onToggleImportant={() => onToggleImportant(id)}
+						onToggleDone={() => onToggleDone(id)}
 					/>
 				</li>
 			);
