@@ -8,7 +8,10 @@ export default class TodoList extends Component {
 			const { id, ...props } = item;
 			return (
 				<li key={id} className="list-group-item">
-					<TodoListItem { ...props }/>
+					<TodoListItem
+						{...props}
+						onDeleted={() => this.props.onDeleted(id)}
+					/>
 				</li>
 			);
 		});

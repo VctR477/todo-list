@@ -8,13 +8,23 @@ import './app.css';
 
 export default class App extends Component {
 
-	render() {
-		this.todos = [
+	state = {
+		todoDate: [
 			{ label: 'Drink coffee', important: false, id: 2343 },
 			{ label: 'Make awesome app', important: true, id: 24352 },
 			{ label: 'Have a lunch', important: false, id: 908342 },
-		];
+		] 
+	}
 
+	delTodoItem = (id) => {
+		this.setState(({ todoDate }) => {
+			return {
+				todoDate: todoDate.filter(item => item.id !== id)
+			}
+		});
+	}
+
+	render() {
 		return (
 			<div className="todo-app">
 				<AppHeader toDo={1} done={3} />
@@ -23,7 +33,9 @@ export default class App extends Component {
 					<ItemStatusFilter />
 				</div>
 
-				<TodoList todos={this.todos} />
+				<TodoList
+					todos={this.state.todoDate}
+					onDeleted={this.delTodoItem}/>
 			</div>
 		);
 	}
