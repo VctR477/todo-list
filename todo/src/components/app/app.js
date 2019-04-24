@@ -81,8 +81,8 @@ export default class App extends Component {
 			onToggleDone,
 			onItemAdded,
 		} = this;
-		const todoCount = todoDate.filter(item => item.done).length;
-		const todoDoneCount = todoDate.length - todoCount;
+		const todoDoneCount = todoDate.filter(item => item.done).length;
+		const todoCount = todoDate.length - todoDoneCount;
 
 		return (
 			<div className="todo-app">
