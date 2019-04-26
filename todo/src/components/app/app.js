@@ -25,6 +25,7 @@ export default class App extends Component {
 			important: false,
 			done: false,
 			id: this.maxId++,
+			hidden: false,
 		};
 	}
 
@@ -32,6 +33,30 @@ export default class App extends Component {
 		this.setState(({ todoDate }) => {
 			return {
 				todoDate: todoDate.filter(item => item.id !== id)
+			}
+		});
+	}
+
+	toggleStatusFilter = (currentFilter) => {
+		this.setState(({ todoDate }) => {
+			//All Active Done
+			return {
+				todoDate: todoDate.map(item => {
+					if (currentFilter === 'All') {
+						item.hidden = false;
+					} else if (currentFilter === 'Active') {
+						item.hidden = false;
+						if (item.done) {
+							item.hidden = true;
+						}
+					} else if (currentFilter === 'Done') {
+						item.hidden = true;
+						if (item.done) {
+							item.hidden = false;
+						}
+					}
+					return item;
+				})
 			}
 		});
 	}
@@ -80,6 +105,7 @@ export default class App extends Component {
 			onToggleImportant,
 			onToggleDone,
 			onItemAdded,
+			toggleStatusFilter,
 		} = this;
 		const todoDoneCount = todoDate.filter(item => item.done).length;
 		const todoCount = todoDate.length - todoDoneCount;
@@ -89,7 +115,8 @@ export default class App extends Component {
 				<AppHeader toDo={todoCount} done={todoDoneCount} />
 				<div className="top-panel d-flex">
 					<SearchPanel/>
-					<ItemStatusFilter />
+					<ItemStatusFilter
+						onToggleStatusFilter={toggleStatusFilter}/>
 				</div>
 
 				<TodoList

@@ -9,8 +9,8 @@ export default class TodoList extends Component {
 			onToggleImportant,
 		} = this.props;
 		const elements = this.props.todos.map((item) => {
-			const { id, ...props } = item;
-			return (
+			const { id, hidden, ...props } = item;
+			return hidden ? null : (
 				<li key={id} className="list-group-item">
 					<TodoListItem
 						{...props}
