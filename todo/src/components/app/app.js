@@ -10,6 +10,7 @@ import './app.css';
 export default class App extends Component {
 
 	maxId = 0;
+	notFound = -1;
 
 	state = {
 		todoDate: [
@@ -36,6 +37,17 @@ export default class App extends Component {
 			}
 		});
 	}
+
+	findSearchText = (text) => {
+		this.setState(({ todoDate }) => {
+			return {
+				todoDate: todoDate.map(item => {
+					item.hidden = item.label.toLowerCase().indexOf(text.toLowerCase()) === this.notFound;
+					return item;
+				})
+			}
+		});
+	};
 
 	toggleStatusFilter = (currentFilter) => {
 		this.setState(({ todoDate }) => {
@@ -106,6 +118,7 @@ export default class App extends Component {
 			onToggleDone,
 			onItemAdded,
 			toggleStatusFilter,
+			findSearchText,
 		} = this;
 		const todoDoneCount = todoDate.filter(item => item.done).length;
 		const todoCount = todoDate.length - todoDoneCount;
@@ -114,7 +127,8 @@ export default class App extends Component {
 			<div className="todo-app">
 				<AppHeader toDo={todoCount} done={todoDoneCount} />
 				<div className="top-panel d-flex">
-					<SearchPanel/>
+					<SearchPanel
+						onFindSearchText={findSearchText}/>
 					<ItemStatusFilter
 						onToggleStatusFilter={toggleStatusFilter}/>
 				</div>
