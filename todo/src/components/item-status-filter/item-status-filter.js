@@ -19,12 +19,12 @@ export default class ItemStatusFilter extends Component {
 	createBtns() {
 		const { onToggleStatusFilter } = this.props;
 		const { isActive } = this.state;
-		return this.btnsList.map((btn, key) => {
+		return this.btnsList.map((btn) => {
 			const classList = `btn ${isActive === btn ? 'btn-info': 'btn-outline-secondary'}`;
 			return (
 				<button
 					type="button"
-					key={key}
+					key={btn}
 					className={ classList }
 					onClick={() => { onToggleStatusFilter(btn); this.onClickFilter(btn); }}>{btn}</button>
 			);
@@ -32,7 +32,6 @@ export default class ItemStatusFilter extends Component {
 	}
 
 	render() {
-		const { onToggleStatusFilter } = this.props;
 		return (
 			<div className="btn-group">
 				{this.createBtns()}
